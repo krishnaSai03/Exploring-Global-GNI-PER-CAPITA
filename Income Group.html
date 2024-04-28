@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNI per capita</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to load the header and navigation bar
+        $(function(){
+            $('#header').load('Header.html');
+        });
+
+        // Function to handle navigation
+        function navigate(section) {
+            $('.content').hide(); // Hide all content elements
+            $('#' + section).show(); // Show the selected section
+        }
+    </script>
+</head>
+<body>
+<div id="header"></div> <!-- Placeholder for header -->
+<input type="file" id="csvFileInput" accept=".csv">
+    <select id="incomeGroupSelect">
+        <option value="Low income">Low income</option>
+        <option value="Lower middle income">Lower middle income</option>
+        <option value="Upper middle income">Upper middle income</option>
+        <option value="High income">High income</option>
+    </select>
+    <button onclick="filterCountries()">Filter Countries</button>
+    <div id="result"></div>
+    <div id="count"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        let csvData; // To store CSV data for filtering
+
+        document.getElementById('csvFileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                Papa.parse(event.target.result, {
+                    header: true,
+                    dynamicTyping: true,
+                    complete: function(results) {
+                        csvData = results.data;
+                    }
+                });
+            };
+
+            reader.readAsText(file);
+        });
+
+        function filterCountries() {
+            const selectedIncomeGroup = document.getElementById('incomeGroupSelect').value;
+            const filteredCountries = csvData.filter(country => country.IncomeGroup === selectedIncomeGroup);
+            displayCountries(filteredCountries);
+        }
+
+        function displayCountries(countries) {
+            const resultContainer = document.getElementById("result");
+            resultContainer.innerHTML = ""; // Clear previous results
+            const numColumns = 4; // Number of columns to display
+            const countriesPerColumn = Math.ceil(countries.length / numColumns);
+
+            for (let i = 0; i < numColumns; i++) {
+                const columnContainer = document.createElement("div");
+                columnContainer.style.float = "left";
+
+                const startIdx = i * countriesPerColumn;
+                const endIdx = Math.min((i + 1) * countriesPerColumn, countries.length);
+                const columnCountries = countries.slice(startIdx, endIdx);
+
+                const ul = document.createElement("ul");
+                columnCountries.forEach(country => {
+                    const li = document.createElement("li");
+                    li.textContent = country.CountryName; // Adjust if your CSV has a different column name for countries
+                    ul.appendChild(li);
+                });
+
+                columnContainer.appendChild(ul);
+                resultContainer.appendChild(columnContainer);
+            }
+            // Display the count of displayed countries
+            $('#count').text("Number of countries: " + countries.length);
+        }
+    </script>
+
+</body>
+</html>

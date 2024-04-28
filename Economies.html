@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNI per capita</title>
+    <style>
+        /* Add CSS for table styling */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+        // Function to load the header and navigation bar
+        $(function(){
+            $('#header').load('Header.html');
+        });
+
+        // Function to handle navigation
+        function navigate(section) {
+            $('.content').hide(); // Hide all content elements
+            $('#' + section).show(); // Show the selected section
+        }
+
+        // Function to sort the data based on the most recent value in descending order
+        function sortByMostRecentValueDescending(data) {
+            return data.sort((a, b) => {
+                const mostRecentYearA = findMostRecentYear(a);
+                const mostRecentYearB = findMostRecentYear(b);
+                return b[mostRecentYearB] - a[mostRecentYearA];
+            });
+        }
+
+        // Function to find the most recent year with a value in a row
+        function findMostRecentYear(row) {
+            for (let year = 2022; year >= 1960; year--) {
+                if (row[year]) {
+                    return year;
+                }
+            }
+            return null;
+        }
+
+        // Function to generate the table based on the number of top countries specified by the user
+        function generateTableWithTopCountries(data, numTopCountries) {
+            const sortedData = sortByMostRecentValueDescending(data).slice(0, numTopCountries);
+
+            const table = document.getElementById('gdpTable');
+            table.innerHTML = ''; // Clear existing table content
+
+            // Create table header
+            const header = table.createTHead();
+            const headerRow = header.insertRow();
+            ['Rank', 'Country', 'Most Recent Year', 'Most Recent Value'].forEach(text => {
+                const cell = headerRow.insertCell();
+                cell.textContent = text;
+            });
+
+            // Populate table rows
+            const tbody = table.createTBody();
+            sortedData.forEach((row, index) => {
+                const tr = tbody.insertRow();
+
+                // Insert rank as the first column
+                const rankCell = tr.insertCell();
+                rankCell.textContent = index + 1;
+
+                const countryCell = tr.insertCell();
+                countryCell.textContent = row['Country Name'];
+
+                // Find the most recent non-empty year and its value
+                let mostRecentYear = findMostRecentYear(row);
+                let mostRecentValue = row[mostRecentYear];
+
+                const yearCell = tr.insertCell();
+                yearCell.textContent = mostRecentYear;
+
+                const valueCell = tr.insertCell();
+                valueCell.textContent = mostRecentValue;
+            });
+        }
+
+        // Function to handle user input for the number of top countries
+        function handleTopCountriesInput() {
+            const numTopCountries = parseInt($('#topCountriesInput').val());
+            if (!isNaN(numTopCountries)) {
+                generateTableWithTopCountries(csvData, numTopCountries);
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="header"></div> <!-- Placeholder for header -->
+<div class="content" id ="Economies">
+    <input type="file" id="csvFileInput" accept=".csv">
+    <div>
+        <label for="topCountriesInput">Number of Top Countries:</label>
+        <input type="number" id="topCountriesInput" min="1" value="10">
+        <button onclick="handleTopCountriesInput()">Apply</button>
+    </div>
+    <table id="gdpTable">
+      <!-- Table will be generated here -->
+    </table>
+</div>
+
+<script>
+    let csvData; // To store CSV data
+
+    document.getElementById('csvFileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        Papa.parse(file, {
+            header: true,
+            dynamicTyping: true,
+            complete: function(results) {
+                csvData = results.data;
+                generateTableWithTopCountries(csvData, 10); // Default to displaying top 10 countries
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
+

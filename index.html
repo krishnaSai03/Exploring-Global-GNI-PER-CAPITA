@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNI vs Life Expectancy</title>
+    <!-- Include Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.choropleth@1.0.0/dist/leaflet.choropleth.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.1.2/chroma.min.js"></script>
+
+
+    <style>
+        /* CSS styles for UI elements */
+        #yearSlider {
+            width: 50%;
+            margin: 10px auto;
+        }
+
+        .ui-slider-handle {
+            width: 1em;
+            height: 1em;
+            border-radius: 50%;
+            background-color: darkslateblue;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+
+        .ui-slider-range {
+            background-color: darkslateblue;
+        }
+
+        .ui-slider-handle:hover {
+            background-color: darkslateblue;
+        }
+
+        #playButton {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: darkslateblue;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #playButton:hover {
+            background-color: #0056b3;
+        }
+
+        /* Additional style for the line graph */
+        #lineGraph {
+            width: 80%;
+            margin: 20px auto;
+        }
+        /* Container for the map */
+#mapContainer {
+    position: relative;
+    height: 100vh; /* Fill the entire viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Map graph styling */
+#mapGraph {
+    width: 90%; /* Adjust the width as needed */
+    height: 80vh; /* Adjust the height as needed */
+}
+
+
+    </style>
+    <script>
+        // Function to load the header and navigation bar
+        $(function(){
+            $('#header').load('Header.html');
+        });
+
+        // Function to handle navigation
+        function navigate(section) {
+            $('.content').hide(); // Hide all content elements
+            $('#' + section).show(); // Show the selected section
+        }
+    </script>
+    <script src="scatterPlot.js"></script>
+    <script src="lineGraph.js"></script>
+    <script src="mapGraph.js"></script>
+</head>
+<body>
+<div id="header"></div> <!-- Placeholder for header -->
+
+<div class="content" id="Home">
+    <p>GNI per capita is the total income earned by a country's residents and businesses, including any income from abroad,
+        divided by the population of the country. It reflects the average income of a country's citizens, converted to US dollars using the World Bank method.</p>
+    <p>Life expectancy is the average number of years a newborn is expected to live if current mortality rates continue to apply. It's a widely used indicator of health.</p>
+    <p>The scatter plot is generated using the merged CSV file containing GNI and life expectancy data. Each point represents a country, and detailed information is displayed when hovering over each point.
+        Countries with higher GNI per capita might afford better healthcare systems, more extensive public health measures, and higher-quality nutrition, all of which contribute to longer life expectancies.</p>
+</div>
+
+<div id="scatterPlot"></div> <!-- Container for the scatter plot -->
+
+<div id="sliderContainer">
+    <label for="yearSlider">Year:</label>
+    <div id="yearSlider"></div>
+    <button id="playButton">Play</button>
+</div>
+<!-- Country Filter Dropdown -->
+<div>
+    <P>The line graph displays the Gross National Income (GNI) per capita over time for selected country, providing insights into economic growth trends.</P>
+    <label for="countrySelect">Select Country:</label>
+    <select id="countrySelect">
+        <!-- Options will be populated dynamically -->
+    </select>
+</div>
+
+<!-- Container for the Line Chart -->
+<div id="lineGraph"></div>
+
+<div>
+    <p>The choropleth map shows GNI per capita across different countries with respective to the Year.
+Different shades of color indicate the GNI per capita range, with darker colors representing higher GNI per capita.
+The user can input a year to view the economic status of countries for that particular year.</p>
+</div>
+
+<!-- Year Filter Dropdown -->
+<!-- Year Filter Dropdown -->
+<!-- Year Input -->
+<div>
+    <label for="yearInput">Enter Year (1962-2022):</label>
+    <input type="number" id="yearInput" min="1962" max="2022" value="1962">
+</div>
+
+
+
+<!-- Container for the Choropleth Map -->
+<!-- Container for the map -->
+<div id="mapContainer">
+    <div id="mapGraph"></div>
+</div>
+
+
+
+
+
+<script>
+    // Show the home page by default
+    $(function(){
+        navigate('Home');
+    });
+</script>
+</body>
+</html>

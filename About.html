@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNI per capita</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to load the header and navigation bar
+        $(function(){
+            $('#header').load('Header.html');
+        });
+
+        // Function to handle navigation
+        function navigate(section) {
+            $('.content').hide(); // Hide all content elements
+            $('#' + section).show(); // Show the selected section
+        }
+    </script>
+</head>
+<body>
+
+<div id="header"></div> <!-- Placeholder for header -->
+
+<div class="content" id ="About">
+<p>In the realm of economic analysis and education, there exists a significant challenge in effectively
+presenting historical per capita income data to a diverse audience. Users, ranging from researchers
+and policymakers to educators and students, often require access to clear, interactive, and insightful
+visualizations of economic data to understand trends, make comparisons, and derive insights.
+There is a need for a comprehensive web application that not only addresses these challenges by
+providing dynamic, user-friendly visualizations of per capita income data but also facilitates easy
+access to historical economic data for comparative and analytical purposes. The application must
+allow users to filter data by year, country, and region; display data through interactive graphs and
+maps; and present this information in a manner that is both informative and accessible to
+individuals with varying levels of expertise in economic analysis.</p>
+    <p>In the book FactFulness, Hans Rosling talks about how people tend to see the world as
+divided into two groups: rich versus poor, developed versus developing, and so on. He uses
+graphs showing the number of babies per woman and child survival rates to illustrate how the
+world has changed over time. The change looks familiar for the income, tourism, education, and
+healthcare, shows a significant progress. Nowadays, most people fall into the middle-income
+category, suggesting there isn't a clear gap anymore. Rosling divides the world into four income
+levels, which makes more sense in today's world. When we look at averages and spreads, we see
+overlaps, indicating there might not be a gap at all. In comparing extremes, we find that the
+majority of people fall somewhere in between. Rosling concludes that the world used to be
+divided into two, but that's no longer the case. Rosling wants us to understand this complexity
+and be more open-minded. We want to delve into this concept and understand in our own way</p>
+    <!-- Placeholder for additional information -->
+    <p> GNI per capita (formerly GNP per capita) is the gross national income, converted
+to U.S. dollars using the World Bank Atlas method, divided by the midyear population. GNI is
+the sum of value added by all resident producers plus any product taxes (less subsidies) not
+included in the valuation of output plus net receipts of primary income (compensation of
+employees and property income) from abroad. GNI, calculated in national currency, is usually
+converted to U.S. dollars at official exchange rates for comparisons across economies, although
+an alternative rate is used when the official exchange rate is judged to diverge by an
+exceptionally large margin from the rate actually applied in international transactions. To smooth
+fluctuations in prices and exchange rates, a special Atlas method of conversion is used by the
+World Bank. This applies a conversion factor that averages the exchange rate for a given year
+and the two preceding years, adjusted for differences in rates of inflation between the country,
+and through 2000, the G-5 countries (France, Germany, Japan, the United Kingdom, and the
+United States). From 2001, these countries include the Euro area, Japan, the United Kingdom,
+and the United States.</p>
+</div>
+</body>
+</html>
