@@ -29,12 +29,12 @@ The visualization includes the following components:
 
 #### File: Economies.html
 ### Economies Page
-The "Economies" page allows users to upload a CSV file containing GNI per capita data. Upon upload, it generates a table displaying the top countries based on their most recent GNI per capita values. Users can specify the number of top countries to display and upload their CSV files for analysis.
+The "Economies" page allows users to upload a CSV file(use GNI per capita.csv) containing GNI per capita data. Upon upload, it generates a table displaying the top countries based on their most recent GNI per capita values. Users can specify the number of top countries to display and upload their CSV files for analysis.
 
 
 #### File: IncomeGroup.html
 ### Income Group Page
-The "Income Group" page enables users to filter countries based on their income groups. Users can upload a CSV file containing GNI per capita data and select an income group from a dropdown menu. The page then displays the countries belonging to the selected income group.
+The "Income Group" page enables users to filter countries based on their income groups. Users can upload a CSV file(use Income Group.csv) containing GNI per capita data and select an income group from a dropdown menu. The page then displays the countries belonging to the selected income group.
 
 ## Technologies Used
 
