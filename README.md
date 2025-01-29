@@ -65,6 +65,6 @@ These CSV files serve as the primary sources of data for the visualizations pres
 Clone the repository: https://github.com/krishnaSai03/DV-Final-Project
 
 ## Website
-Website Link : https://krishnasai03.github.io/DV-Final-Project/
+Website Link : https://krishnasai03.github.io/Exploring-Global-GNI-PER-CAPITA/
 
 
